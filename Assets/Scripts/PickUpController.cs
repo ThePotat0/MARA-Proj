@@ -64,6 +64,7 @@ public class PickUpController : MonoBehaviour
             if (Keyboard.current.eKey.wasPressedThisFrame && _onClueTrigger && IsLookingAtItem(out GameObject item))
             {
                 Destroy(item);
+                _onClueTrigger = false;
                 Debug.Log(item.name + " picked up!");
             }
         }
