@@ -1,5 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PickUpController : MonoBehaviour
 {
@@ -8,23 +8,27 @@ public class PickUpController : MonoBehaviour
     [SerializeField] private GameObject _clue;
     private void OnTriggerEnter(Collider other)
     {
-        _onClueTrigger |= other.GetComponent<Collider>();
+        _onClueTrigger = true;
+        Debug.Log(_onClueTrigger);
         _clueObject = other;
         _clue.SetActive(true);
+        Debug.Log(_clueObject.gameObject.name + " entered clue area!");
     }
 
     private void OnTriggerExit(Collider other)
     {
         _clueObject = null;
         _onClueTrigger = false;
+        Debug.Log(_onClueTrigger);
         _clue.SetActive(false);
+        Debug.Log(other.gameObject.name + " exited clue area!");
     }
 
     private void Update()
     {
-        if (_clueObject.tag == "ClueArea")
+        if (_clueObject != null && _clueObject.tag == "ClueArea")
         {
-            if (Input.GetKey(KeyCode.E) && _onClueTrigger)
+            if (Keyboard.current.eKey.wasPressedThisFrame && _onClueTrigger)
             {
                 Destroy(_clueObject.gameObject);
                 Debug.Log(_clueObject.gameObject.name + " picked up!");
