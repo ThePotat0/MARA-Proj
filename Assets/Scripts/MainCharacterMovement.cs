@@ -4,6 +4,12 @@ using UnityEngine.InputSystem;
 public class MainCharacterMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
+    private Rigidbody _rb;
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody>();
+    }
 
     private void Update()
     {
@@ -44,6 +50,6 @@ public class MainCharacterMovement : MonoBehaviour
             direction.Normalize();
         }
 
-        transform.Translate(direction * moveSpeed * Time.deltaTime, Space.World);
+        _rb.linearVelocity = direction * moveSpeed;
     }
 }
